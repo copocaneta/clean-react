@@ -2,7 +2,7 @@ import { HttpPostClient } from 'data/protocols/http/http-post-client'
 import { RemoteAuthentication } from './remote-authentication'
 
 describe('RemoteAuthentication', () => {
-  test('Should call http client with correct URL', async () => {
+  test('Should call httpPostClient with correct URL', async () => {
     class HttpPostClient implements HttpPostClient {
       url?: string
       async post(url: string): Promise<void> {
