@@ -3,7 +3,7 @@ import { RemoteAuthentication } from './remote-authentication'
 
 describe('RemoteAuthentication', () => {
   test('Should call httpPostClient with correct URL', async () => {
-    class HttpPostClient implements HttpPostClient {
+    class HttpPostClientSpy implements HttpPostClient {
       url?: string
       async post(url: string): Promise<void> {
         this.url = url
@@ -11,7 +11,7 @@ describe('RemoteAuthentication', () => {
       }
     }
     const url = 'any_url'
-    const httPostClientSpy = new HttpPostClient()
+    const httPostClientSpy = new HttpPostClientSpy()
     // sut = system under test
     const sut = new RemoteAuthentication(url, httPostClientSpy)
     await sut.auth()
