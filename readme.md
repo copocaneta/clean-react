@@ -44,3 +44,22 @@ npm set-script prepare "husky install" && yarn prepare
 npx husky add .husky/pre-commit "yarn lint-staged"
 git commit -m "added husky and lint-stagged" // here you will notice the lint-staged checking the files with help of husky
 ```
+
+## Fixing Webpack `contentBase` and `writeToDisk` changes:
+
+- Following Rodrigo Manguinho course on udemy I can see some webpack settings had their names changed. Main these ones:
+
+  - As we can [see here](https://github.com/webpack/webpack-dev-server/issues/2958), at `webpack.config.js` we had the following changes:
+    - `contentBase` was changed to `static`
+    - and `writeToDisk` which used to be at `devServer.writeToDisk` now must be at `devServer.writeToDisk.devMiddleware.writeToDisk`.
+  - So `devServer` now must look like this:
+
+    ```js
+      devServer: {
+      static: './public',
+      historyApiFallback: true,
+      devMiddleware: {
+        writeToDisk: true,
+      }
+    },
+    ```
