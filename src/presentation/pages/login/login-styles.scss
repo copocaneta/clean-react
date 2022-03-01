@@ -58,21 +58,7 @@ button {
       font-size: 1.5rem;
       text-transform: uppercase;
     }
-    .inputWrap {
-      margin-top: 1.1rem;
-      display: flex;
-      position: relative;
-      align-items: center;
-      input {
-        flex-grow: 1;
-      }
-      .status {
-        position: absolute;
-        right: 8px;
-        font-size: 0.8rem;
-        cursor: help;
-      }
-    }
+
     .submit {
       margin-top: 1.7rem;
     }
