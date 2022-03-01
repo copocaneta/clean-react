@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 
 type Props = React.HTMLAttributes<HTMLElement>
 
+// the code for this loading spinner was taken from https://loading.io/css
+
 const Spinner: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div {... props} className={[Styles.spinner, props.className].join(' ')}>
