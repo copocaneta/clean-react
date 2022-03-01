@@ -63,3 +63,33 @@ git commit -m "added husky and lint-stagged" // here you will notice the lint-st
       }
     },
     ```
+
+## Fixing `Route` from `react-router-dom` not having `exact` and other syntax
+
+- I was getting this error:
+
+  ```js
+  Property 'exact' does not exist on type 'IntrinsicAttributes & ...
+  ```
+
+- So after Googling I [found this](https://stackoverflow.com/a/69866593/8754987) which says:
+
+  > react router v6 doesn't support `exact` anymore.
+
+  > // old - v5
+
+  ```jsx
+  <Route exact path="/" component={Home} />
+  ```
+
+  > // new - v6
+
+  ```jsx
+  <Route path="/" element={<Home />} />
+  ```
+
+  > As stated in their documentation:
+
+  - You don't need to use an exact prop on `<Route path="/">` anymore. This is because all paths match exactly by default. If you want to match more of the URL because you have child routes use a trailing `_` as in `<Route path="users/_">`.
+
+  > You can refer to this migration guide: https://reactrouter.com/docs/en/v6/upgrading/v5
