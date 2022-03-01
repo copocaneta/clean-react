@@ -93,3 +93,29 @@ git commit -m "added husky and lint-stagged" // here you will notice the lint-st
   - You don't need to use an exact prop on `<Route path="/">` anymore. This is because all paths match exactly by default. If you want to match more of the URL because you have child routes use a trailing `_` as in `<Route path="users/_">`.
 
   > You can refer to this migration guide: https://reactrouter.com/docs/en/v6/upgrading/v5
+
+## Visual Studio Code intellisense for `onFocus`, `onClick` and other events show type with `Handler` appended
+
+- Trying to get the type to use for the event when declaring a function on a component I found that Visual Studio Code will give us the type like this:
+
+  ```ts
+  React.FocusEventHandler<HTMLInputElement>
+  ```
+
+- When trying to use this like this:
+
+  ```jsx
+  const enableInput = (event: React.FocusEventHandler<HTMLInputElement>): void => {
+    event.target.readOnly = false
+  }
+  ```
+
+- We get this error `Property 'target' does not exist on type 'FocusEventHandler<HTMLInputElement>'.`.
+
+- This is because we shouldn't use `React.FocusEventHandler<HTMLInputElement>` as the type for the event. The `onFocus` event type is actually `React.FocusEvent<HTMLInputElement>`. So it should be:
+
+  ```jsx
+  const enableInput = (event: React.FocusEvent<HTMLInputElement>): void => {
+    event.target.readOnly = false
+  }
+  ```

@@ -4,7 +4,10 @@ import Styles from './input-styles.scss'
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 const Input: React.FC<Props> = (props: Props) => {
-  const enableInput = (event: React.FocusEvent<HTMLInputElement>): void => {
+  //   const enableInput = (event: React.FocusEvent<HTMLInputElement>): void => {
+  //     event.target.readOnly = false
+  //   }
+  const enableInput: React.FocusEventHandler<HTMLInputElement> = (event) => {
     event.target.readOnly = false
   }
 
