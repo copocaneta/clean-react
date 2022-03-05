@@ -30,6 +30,9 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event): Promise<void> => {
     event.preventDefault()
+    if (state.isLoading) {
+      return
+    }
     setState({
       ...state,
       isLoading: true
