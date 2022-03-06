@@ -152,3 +152,20 @@ git commit -m "added husky and lint-stagged" // here you will notice the lint-st
   ```
 
 - Please take a careful look how we had to wrap our SUT component (`<Login/>`) inside `BrowserRouter` above.
+
+## `react-router-dom` v5 `useHistory()` is deprecated in `react-router-dom` v6
+
+- We have to use `useNavigate()` instead.
+
+- And the `.replace()` method on `useHistory()`, on `useNavigate()` instead is `useNavigate('/', { replace: true })`:
+
+  ```jsx
+  import { Link, useNavigate } from 'react-router-dom'
+  ...
+
+  const history = useNavigate()
+
+  ...
+
+  history('/', { replace: true })
+  ```

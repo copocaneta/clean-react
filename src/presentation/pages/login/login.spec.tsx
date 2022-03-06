@@ -145,12 +145,16 @@ describe('Login Component', () => {
     expect(mainError.textContent).toBe(error.message)
     expect(errorWrap.childElementCount).toBe(1)
   })
+
   test('Should add accessToken to localStorage on success', async () => {
     const { sut, authenticationSpy } = makeSut()
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
     expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
+    expect(window.history.length).toBe(1)
+    expect(window.location.pathname).toBe('/')
   })
+
   test('Should go to signup page', () => {
     // arrange
     const { sut } = makeSut()
