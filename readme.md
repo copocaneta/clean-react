@@ -119,3 +119,36 @@ git commit -m "added husky and lint-stagged" // here you will notice the lint-st
     event.target.readOnly = false
   }
   ```
+
+## `react-router-dom` v5 `createMemoryHistory()` is deprecated in `react-router-dom` v6
+
+- Manguinhos course was prepared in `react-router-dom` v5, in v6 there is no `createMemoryHistory()`.
+
+- One solution proposed by one other student (Eduardo Ernesto Corrales) was to use `window.history.length` and `window.location.pathname` like this:
+
+  ```jsx
+  expect(window.history.length).toBe(2)
+  expect(window.location.pathname).toBe('/signup')
+  ```
+
+- To perform the following test on our rendered sut:
+
+  ```diff
+  const makeSut = (params?: SutParams): SutTypes => {
+    const validationStub = new ValidationStub()
+    const authenticationSpy = new AuthenticationSpy()
+    validationStub.errorMessage = params?.validationError
+    const sut = render(
+  +    <BrowserRouter>
+        <Login validation={validationStub} authentication={authenticationSpy} />
+  +    </BrowserRouter>
+    )
+    return {
+      sut,
+      validationStub,
+      authenticationSpy
+    }
+  }
+  ```
+
+- Please take a careful look how we had to wrap our SUT component (`<Login/>`) inside `BrowserRouter` above.

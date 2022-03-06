@@ -5,6 +5,7 @@ import Login from './login'
 import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
 import { render, RenderResult, fireEvent, cleanup, waitFor } from '@testing-library/react'
 import { InvalidCredentialsError } from '@/domain/errors'
+import { BrowserRouter } from 'react-router-dom'
 
 type SutTypes = {
   sut: RenderResult
@@ -20,7 +21,10 @@ const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
   validationStub.errorMessage = params?.validationError
-  const sut = render(<Login validation={validationStub} authentication={authenticationSpy}/>)
+  const sut = render(
+    <BrowserRouter>
+        <Login validation={validationStub} authentication={authenticationSpy} />
+    </BrowserRouter>)
   return {
     sut, validationStub, authenticationSpy
   }
@@ -146,5 +150,17 @@ describe('Login Component', () => {
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
     expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
+  })
+  test('Should go to signup page', () => {
+    // arrange
+    const { sut } = makeSut()
+    const register = sut.getByTestId('signup')
+    // action
+    fireEvent.click(register)
+    // assert
+
+    console.log(window.history)
+    expect(window.history.length).toBe(2)
+    expect(window.location.pathname).toBe('/signup')
   })
 })
