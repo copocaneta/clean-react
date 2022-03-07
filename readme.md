@@ -169,3 +169,7 @@ git commit -m "added husky and lint-stagged" // here you will notice the lint-st
 
   history('/', { replace: true })
   ```
+
+## Had to downgrade `react-router-dom` in this project to v5
+
+- Due to huge amount of errors/warnings and refactors I had to downgrade react-router-dom in this project to v5 instead of v6. All fixed indicated above were reverted to be able to use v5. Now we use `Switch` instead of `Routes` and `exact` in the `Route` component.
