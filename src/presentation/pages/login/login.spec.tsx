@@ -5,7 +5,8 @@ import Login from './login'
 import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
 import { render, RenderResult, fireEvent, cleanup, waitFor } from '@testing-library/react'
 import { InvalidCredentialsError } from '@/domain/errors'
-import { BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 
 type SutTypes = {
   sut: RenderResult
@@ -17,14 +18,15 @@ type SutParams = {
   validationError: string
 }
 
+const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
   validationStub.errorMessage = params?.validationError
   const sut = render(
-    <BrowserRouter>
+    <Router history={history}>
         <Login validation={validationStub} authentication={authenticationSpy} />
-    </BrowserRouter>)
+    </Router>)
   return {
     sut, validationStub, authenticationSpy
   }
@@ -151,8 +153,8 @@ describe('Login Component', () => {
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
     expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
-    expect(window.history.length).toBe(1)
-    expect(window.location.pathname).toBe('/')
+    expect(history.length).toBe(1)
+    expect(history.location.pathname).toBe('/')
   })
 
   test('Should go to signup page', () => {
@@ -163,8 +165,7 @@ describe('Login Component', () => {
     fireEvent.click(register)
     // assert
 
-    console.log(window.history)
-    expect(window.history.length).toBe(2)
-    expect(window.location.pathname).toBe('/signup')
+    expect(history.length).toBe(2)
+    expect(history.location.pathname).toBe('/signup')
   })
 })
