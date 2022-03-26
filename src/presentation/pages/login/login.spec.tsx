@@ -1,7 +1,7 @@
 import React from 'react'
 import { faker } from '@faker-js/faker'
 import 'jest-localstorage-mock'
-import Login from './login'
+import { Login } from '@/presentation/pages'
 import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
 import { render, RenderResult, fireEvent, cleanup, waitFor } from '@testing-library/react'
 import { InvalidCredentialsError } from '@/domain/errors'
@@ -25,14 +25,21 @@ const makeSut = (params?: SutParams): SutTypes => {
   validationStub.errorMessage = params?.validationError
   const sut = render(
     <Router history={history}>
-        <Login validation={validationStub} authentication={authenticationSpy} />
-    </Router>)
+      <Login validation={validationStub} authentication={authenticationSpy} />
+    </Router>
+  )
   return {
-    sut, validationStub, authenticationSpy
+    sut,
+    validationStub,
+    authenticationSpy
   }
 }
 
-const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
+const simulateValidSubmit = async (
+  sut: RenderResult,
+  email = faker.internet.email(),
+  password = faker.internet.password()
+): Promise<void> => {
   populateEmailField(sut, email)
   populatePasswordField(sut, password)
   const form = sut.getByTestId('form')
